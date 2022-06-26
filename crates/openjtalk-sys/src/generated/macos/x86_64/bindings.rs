@@ -271,6 +271,184 @@ pub const SEEK_END: u32 = 2;
 pub const L_ctermid: u32 = 1024;
 pub const TRUE: u32 = 1;
 pub const FALSE: u32 = 0;
+#[doc = " DictionaryInfo structure"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct mecab_dictionary_info_t {
+    #[doc = " filename of dictionary"]
+    #[doc = " On Windows, filename is stored in UTF-8 encoding"]
+    pub filename: *const ::std::os::raw::c_char,
+    #[doc = " character set of the dictionary. e.g., \"SHIFT-JIS\", \"UTF-8\""]
+    pub charset: *const ::std::os::raw::c_char,
+    #[doc = " How many words are registered in this dictionary."]
+    pub size: ::std::os::raw::c_uint,
+    #[doc = " dictionary type"]
+    #[doc = " this value should be MECAB_USR_DIC, MECAB_SYS_DIC, or MECAB_UNK_DIC."]
+    pub type_: ::std::os::raw::c_int,
+    #[doc = " left attributes size"]
+    pub lsize: ::std::os::raw::c_uint,
+    #[doc = " right attributes size"]
+    pub rsize: ::std::os::raw::c_uint,
+    #[doc = " version of this dictionary"]
+    pub version: ::std::os::raw::c_ushort,
+    #[doc = " pointer to the next dictionary info."]
+    pub next: *mut mecab_dictionary_info_t,
+}
+#[doc = " Path structure"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct mecab_path_t {
+    #[doc = " pointer to the right node"]
+    pub rnode: *mut mecab_node_t,
+    #[doc = " pointer to the next right path"]
+    pub rnext: *mut mecab_path_t,
+    #[doc = " pointer to the left node"]
+    pub lnode: *mut mecab_node_t,
+    #[doc = " pointer to the next left path"]
+    pub lnext: *mut mecab_path_t,
+    #[doc = " local cost"]
+    pub cost: ::std::os::raw::c_int,
+    #[doc = " marginal probability"]
+    pub prob: f32,
+}
+#[doc = " Node structure"]
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct mecab_node_t {
+    #[doc = " pointer to the previous node."]
+    pub prev: *mut mecab_node_t,
+    #[doc = " pointer to the next node."]
+    pub next: *mut mecab_node_t,
+    #[doc = " pointer to the node which ends at the same position."]
+    pub enext: *mut mecab_node_t,
+    #[doc = " pointer to the node which starts at the same position."]
+    pub bnext: *mut mecab_node_t,
+    #[doc = " pointer to the right path."]
+    #[doc = " this value is NULL if MECAB_ONE_BEST mode."]
+    pub rpath: *mut mecab_path_t,
+    #[doc = " pointer to the right path."]
+    #[doc = " this value is NULL if MECAB_ONE_BEST mode."]
+    pub lpath: *mut mecab_path_t,
+    #[doc = " surface string."]
+    #[doc = " this value is not 0 terminated."]
+    #[doc = " You can get the length with length/rlength members."]
+    pub surface: *const ::std::os::raw::c_char,
+    #[doc = " feature string"]
+    pub feature: *const ::std::os::raw::c_char,
+    #[doc = " unique node id"]
+    pub id: ::std::os::raw::c_uint,
+    #[doc = " length of the surface form."]
+    pub length: ::std::os::raw::c_ushort,
+    #[doc = " length of the surface form including white space before the morph."]
+    pub rlength: ::std::os::raw::c_ushort,
+    #[doc = " right attribute id"]
+    pub rcAttr: ::std::os::raw::c_ushort,
+    #[doc = " left attribute id"]
+    pub lcAttr: ::std::os::raw::c_ushort,
+    #[doc = " unique part of speech id. This value is defined in \"pos.def\" file."]
+    pub posid: ::std::os::raw::c_ushort,
+    #[doc = " character type"]
+    pub char_type: ::std::os::raw::c_uchar,
+    #[doc = " status of this model."]
+    #[doc = " This value is MECAB_NOR_NODE, MECAB_UNK_NODE, MECAB_BOS_NODE, MECAB_EOS_NODE, or MECAB_EON_NODE."]
+    pub stat: ::std::os::raw::c_uchar,
+    #[doc = " set 1 if this node is best node."]
+    pub isbest: ::std::os::raw::c_uchar,
+    #[doc = " forward accumulative log summation."]
+    #[doc = " This value is only available when MECAB_MARGINAL_PROB is passed."]
+    pub alpha: f32,
+    #[doc = " backward accumulative log summation."]
+    #[doc = " This value is only available when MECAB_MARGINAL_PROB is passed."]
+    pub beta: f32,
+    #[doc = " marginal probability."]
+    #[doc = " This value is only available when MECAB_MARGINAL_PROB is passed."]
+    pub prob: f32,
+    #[doc = " word cost."]
+    pub wcost: ::std::os::raw::c_short,
+    #[doc = " best accumulative cost from bos node to this node."]
+    pub cost: ::std::os::raw::c_long,
+}
+pub const MECAB_NOR_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_NOR_NODE;
+pub const MECAB_UNK_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_UNK_NODE;
+pub const MECAB_BOS_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_BOS_NODE;
+pub const MECAB_EOS_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_EOS_NODE;
+pub const MECAB_EON_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_EON_NODE;
+#[repr(u32)]
+#[doc = " Parameters for MeCab::Node::stat"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum _bindgen_ty_1 {
+    #[doc = " Normal node defined in the dictionary."]
+    MECAB_NOR_NODE = 0,
+    #[doc = " Unknown node not defined in the dictionary."]
+    MECAB_UNK_NODE = 1,
+    #[doc = " Virtual node representing a beginning of the sentence."]
+    MECAB_BOS_NODE = 2,
+    #[doc = " Virtual node representing a end of the sentence."]
+    MECAB_EOS_NODE = 3,
+    #[doc = " Virtual node representing a end of the N-best enumeration."]
+    MECAB_EON_NODE = 4,
+}
+pub const MECAB_SYS_DIC: _bindgen_ty_2 = _bindgen_ty_2::MECAB_SYS_DIC;
+pub const MECAB_USR_DIC: _bindgen_ty_2 = _bindgen_ty_2::MECAB_USR_DIC;
+pub const MECAB_UNK_DIC: _bindgen_ty_2 = _bindgen_ty_2::MECAB_UNK_DIC;
+#[repr(u32)]
+#[doc = " Parameters for MeCab::DictionaryInfo::type"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum _bindgen_ty_2 {
+    #[doc = " This is a system dictionary."]
+    MECAB_SYS_DIC = 0,
+    #[doc = " This is a user dictionary."]
+    MECAB_USR_DIC = 1,
+    #[doc = " This is a unknown word dictionary."]
+    MECAB_UNK_DIC = 2,
+}
+pub const MECAB_ONE_BEST: _bindgen_ty_3 = _bindgen_ty_3::MECAB_ONE_BEST;
+pub const MECAB_NBEST: _bindgen_ty_3 = _bindgen_ty_3::MECAB_NBEST;
+pub const MECAB_PARTIAL: _bindgen_ty_3 = _bindgen_ty_3::MECAB_PARTIAL;
+pub const MECAB_MARGINAL_PROB: _bindgen_ty_3 = _bindgen_ty_3::MECAB_MARGINAL_PROB;
+pub const MECAB_ALTERNATIVE: _bindgen_ty_3 = _bindgen_ty_3::MECAB_ALTERNATIVE;
+pub const MECAB_ALL_MORPHS: _bindgen_ty_3 = _bindgen_ty_3::MECAB_ALL_MORPHS;
+pub const MECAB_ALLOCATE_SENTENCE: _bindgen_ty_3 = _bindgen_ty_3::MECAB_ALLOCATE_SENTENCE;
+#[repr(u32)]
+#[doc = " Parameters for MeCab::Lattice::request_type"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum _bindgen_ty_3 {
+    #[doc = " One best result is obtained (default mode)"]
+    MECAB_ONE_BEST = 1,
+    #[doc = " Set this flag if you want to obtain N best results."]
+    MECAB_NBEST = 2,
+    #[doc = " Set this flag if you want to enable a partial parsing mode."]
+    #[doc = " When this flag is set, the input |sentence| needs to be written"]
+    #[doc = " in partial parsing format."]
+    MECAB_PARTIAL = 4,
+    #[doc = " Set this flag if you want to obtain marginal probabilities."]
+    #[doc = " Marginal probability is set in MeCab::Node::prob."]
+    #[doc = " The parsing speed will get 3-5 times slower than the default mode."]
+    MECAB_MARGINAL_PROB = 8,
+    #[doc = " Set this flag if you want to obtain alternative results."]
+    #[doc = " Not implemented."]
+    MECAB_ALTERNATIVE = 16,
+    #[doc = " When this flag is set, the result linked-list (Node::next/prev)"]
+    #[doc = " traverses all nodes in the lattice."]
+    MECAB_ALL_MORPHS = 32,
+    #[doc = " When this flag is set, tagger internally copies the body of passed"]
+    #[doc = " sentence into internal buffer."]
+    MECAB_ALLOCATE_SENTENCE = 64,
+}
+pub const MECAB_ANY_BOUNDARY: _bindgen_ty_4 = _bindgen_ty_4::MECAB_ANY_BOUNDARY;
+pub const MECAB_TOKEN_BOUNDARY: _bindgen_ty_4 = _bindgen_ty_4::MECAB_TOKEN_BOUNDARY;
+pub const MECAB_INSIDE_TOKEN: _bindgen_ty_4 = _bindgen_ty_4::MECAB_INSIDE_TOKEN;
+#[repr(u32)]
+#[doc = " Parameters for MeCab::Lattice::boundary_constraint_type"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum _bindgen_ty_4 {
+    #[doc = " The token boundary is not specified."]
+    MECAB_ANY_BOUNDARY = 0,
+    #[doc = " The position is a strong token boundary."]
+    MECAB_TOKEN_BOUNDARY = 1,
+    #[doc = " The position is not a token boundary."]
+    MECAB_INSIDE_TOKEN = 2,
+}
 pub type __int8_t = ::std::os::raw::c_schar;
 pub type __uint8_t = ::std::os::raw::c_uchar;
 pub type __int16_t = ::std::os::raw::c_short;
@@ -287,53 +465,6 @@ pub type __darwin_ct_rune_t = ::std::os::raw::c_int;
 pub union __mbstate_t {
     pub __mbstate8: [::std::os::raw::c_char; 128usize],
     pub _mbstateL: ::std::os::raw::c_longlong,
-}
-#[test]
-fn bindgen_test_layout___mbstate_t() {
-    assert_eq!(
-        ::std::mem::size_of::<__mbstate_t>(),
-        128usize,
-        concat!("Size of: ", stringify!(__mbstate_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__mbstate_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__mbstate_t))
-    );
-    fn test_field___mbstate8() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__mbstate_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__mbstate8) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__mbstate_t),
-                "::",
-                stringify!(__mbstate8)
-            )
-        );
-    }
-    test_field___mbstate8();
-    fn test_field__mbstateL() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__mbstate_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._mbstateL) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__mbstate_t),
-                "::",
-                stringify!(_mbstateL)
-            )
-        );
-    }
-    test_field__mbstateL();
 }
 pub type __darwin_mbstate_t = __mbstate_t;
 pub type __darwin_ptrdiff_t = ::std::os::raw::c_long;
@@ -373,122 +504,11 @@ pub struct __darwin_pthread_handler_rec {
     pub __arg: *mut ::std::os::raw::c_void,
     pub __next: *mut __darwin_pthread_handler_rec,
 }
-#[test]
-fn bindgen_test_layout___darwin_pthread_handler_rec() {
-    assert_eq!(
-        ::std::mem::size_of::<__darwin_pthread_handler_rec>(),
-        24usize,
-        concat!("Size of: ", stringify!(__darwin_pthread_handler_rec))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__darwin_pthread_handler_rec>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__darwin_pthread_handler_rec))
-    );
-    fn test_field___routine() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__darwin_pthread_handler_rec>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__routine) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__darwin_pthread_handler_rec),
-                "::",
-                stringify!(__routine)
-            )
-        );
-    }
-    test_field___routine();
-    fn test_field___arg() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__darwin_pthread_handler_rec>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__arg) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__darwin_pthread_handler_rec),
-                "::",
-                stringify!(__arg)
-            )
-        );
-    }
-    test_field___arg();
-    fn test_field___next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__darwin_pthread_handler_rec>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__next) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__darwin_pthread_handler_rec),
-                "::",
-                stringify!(__next)
-            )
-        );
-    }
-    test_field___next();
-}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _opaque_pthread_attr_t {
     pub __sig: ::std::os::raw::c_long,
     pub __opaque: [::std::os::raw::c_char; 56usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_attr_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_attr_t>(),
-        64usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_attr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_attr_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_attr_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_attr_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_attr_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_attr_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_attr_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -496,105 +516,11 @@ pub struct _opaque_pthread_cond_t {
     pub __sig: ::std::os::raw::c_long,
     pub __opaque: [::std::os::raw::c_char; 40usize],
 }
-#[test]
-fn bindgen_test_layout__opaque_pthread_cond_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_cond_t>(),
-        48usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_cond_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_cond_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_cond_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_cond_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_cond_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_cond_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_cond_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
-}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _opaque_pthread_condattr_t {
     pub __sig: ::std::os::raw::c_long,
     pub __opaque: [::std::os::raw::c_char; 8usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_condattr_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_condattr_t>(),
-        16usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_condattr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_condattr_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_condattr_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_condattr_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_condattr_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_condattr_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_condattr_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -602,105 +528,11 @@ pub struct _opaque_pthread_mutex_t {
     pub __sig: ::std::os::raw::c_long,
     pub __opaque: [::std::os::raw::c_char; 56usize],
 }
-#[test]
-fn bindgen_test_layout__opaque_pthread_mutex_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_mutex_t>(),
-        64usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_mutex_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_mutex_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_mutex_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_mutex_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_mutex_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_mutex_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_mutex_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
-}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _opaque_pthread_mutexattr_t {
     pub __sig: ::std::os::raw::c_long,
     pub __opaque: [::std::os::raw::c_char; 8usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_mutexattr_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_mutexattr_t>(),
-        16usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_mutexattr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_mutexattr_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_mutexattr_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_mutexattr_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_mutexattr_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_mutexattr_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_mutexattr_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -708,105 +540,11 @@ pub struct _opaque_pthread_once_t {
     pub __sig: ::std::os::raw::c_long,
     pub __opaque: [::std::os::raw::c_char; 8usize],
 }
-#[test]
-fn bindgen_test_layout__opaque_pthread_once_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_once_t>(),
-        16usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_once_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_once_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_once_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_once_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_once_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_once_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_once_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
-}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _opaque_pthread_rwlock_t {
     pub __sig: ::std::os::raw::c_long,
     pub __opaque: [::std::os::raw::c_char; 192usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_rwlock_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_rwlock_t>(),
-        200usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_rwlock_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_rwlock_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_rwlock_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_rwlock_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_rwlock_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_rwlock_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_rwlock_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -814,123 +552,12 @@ pub struct _opaque_pthread_rwlockattr_t {
     pub __sig: ::std::os::raw::c_long,
     pub __opaque: [::std::os::raw::c_char; 16usize],
 }
-#[test]
-fn bindgen_test_layout__opaque_pthread_rwlockattr_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_rwlockattr_t>(),
-        24usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_rwlockattr_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_rwlockattr_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_rwlockattr_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_rwlockattr_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_rwlockattr_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_rwlockattr_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_rwlockattr_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
-}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct _opaque_pthread_t {
     pub __sig: ::std::os::raw::c_long,
     pub __cleanup_stack: *mut __darwin_pthread_handler_rec,
     pub __opaque: [::std::os::raw::c_char; 8176usize],
-}
-#[test]
-fn bindgen_test_layout__opaque_pthread_t() {
-    assert_eq!(
-        ::std::mem::size_of::<_opaque_pthread_t>(),
-        8192usize,
-        concat!("Size of: ", stringify!(_opaque_pthread_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_opaque_pthread_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_opaque_pthread_t))
-    );
-    fn test_field___sig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__sig) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_t),
-                "::",
-                stringify!(__sig)
-            )
-        );
-    }
-    test_field___sig();
-    fn test_field___cleanup_stack() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__cleanup_stack) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_t),
-                "::",
-                stringify!(__cleanup_stack)
-            )
-        );
-    }
-    test_field___cleanup_stack();
-    fn test_field___opaque() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_opaque_pthread_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).__opaque) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_opaque_pthread_t),
-                "::",
-                stringify!(__opaque)
-            )
-        );
-    }
-    test_field___opaque();
 }
 pub type __darwin_pthread_attr_t = _opaque_pthread_attr_t;
 pub type __darwin_pthread_cond_t = _opaque_pthread_cond_t;
@@ -990,53 +617,6 @@ pub struct __sbuf {
     pub _base: *mut ::std::os::raw::c_uchar,
     pub _size: ::std::os::raw::c_int,
 }
-#[test]
-fn bindgen_test_layout___sbuf() {
-    assert_eq!(
-        ::std::mem::size_of::<__sbuf>(),
-        16usize,
-        concat!("Size of: ", stringify!(__sbuf))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__sbuf>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__sbuf))
-    );
-    fn test_field__base() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sbuf>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._base) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sbuf),
-                "::",
-                stringify!(_base)
-            )
-        );
-    }
-    test_field__base();
-    fn test_field__size() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sbuf>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._size) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sbuf),
-                "::",
-                stringify!(_size)
-            )
-        );
-    }
-    test_field__size();
-}
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct __sFILEX {
@@ -1085,359 +665,6 @@ pub struct __sFILE {
     pub _lb: __sbuf,
     pub _blksize: ::std::os::raw::c_int,
     pub _offset: fpos_t,
-}
-#[test]
-fn bindgen_test_layout___sFILE() {
-    assert_eq!(
-        ::std::mem::size_of::<__sFILE>(),
-        152usize,
-        concat!("Size of: ", stringify!(__sFILE))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__sFILE>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__sFILE))
-    );
-    fn test_field__p() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._p) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_p)
-            )
-        );
-    }
-    test_field__p();
-    fn test_field__r() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._r) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_r)
-            )
-        );
-    }
-    test_field__r();
-    fn test_field__w() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._w) as usize - ptr as usize
-            },
-            12usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_w)
-            )
-        );
-    }
-    test_field__w();
-    fn test_field__flags() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._flags) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_flags)
-            )
-        );
-    }
-    test_field__flags();
-    fn test_field__file() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._file) as usize - ptr as usize
-            },
-            18usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_file)
-            )
-        );
-    }
-    test_field__file();
-    fn test_field__bf() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._bf) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_bf)
-            )
-        );
-    }
-    test_field__bf();
-    fn test_field__lbfsize() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._lbfsize) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_lbfsize)
-            )
-        );
-    }
-    test_field__lbfsize();
-    fn test_field__cookie() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._cookie) as usize - ptr as usize
-            },
-            48usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_cookie)
-            )
-        );
-    }
-    test_field__cookie();
-    fn test_field__close() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._close) as usize - ptr as usize
-            },
-            56usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_close)
-            )
-        );
-    }
-    test_field__close();
-    fn test_field__read() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._read) as usize - ptr as usize
-            },
-            64usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_read)
-            )
-        );
-    }
-    test_field__read();
-    fn test_field__seek() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._seek) as usize - ptr as usize
-            },
-            72usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_seek)
-            )
-        );
-    }
-    test_field__seek();
-    fn test_field__write() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._write) as usize - ptr as usize
-            },
-            80usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_write)
-            )
-        );
-    }
-    test_field__write();
-    fn test_field__ub() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._ub) as usize - ptr as usize
-            },
-            88usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_ub)
-            )
-        );
-    }
-    test_field__ub();
-    fn test_field__extra() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._extra) as usize - ptr as usize
-            },
-            104usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_extra)
-            )
-        );
-    }
-    test_field__extra();
-    fn test_field__ur() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._ur) as usize - ptr as usize
-            },
-            112usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_ur)
-            )
-        );
-    }
-    test_field__ur();
-    fn test_field__ubuf() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._ubuf) as usize - ptr as usize
-            },
-            116usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_ubuf)
-            )
-        );
-    }
-    test_field__ubuf();
-    fn test_field__nbuf() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._nbuf) as usize - ptr as usize
-            },
-            119usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_nbuf)
-            )
-        );
-    }
-    test_field__nbuf();
-    fn test_field__lb() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._lb) as usize - ptr as usize
-            },
-            120usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_lb)
-            )
-        );
-    }
-    test_field__lb();
-    fn test_field__blksize() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._blksize) as usize - ptr as usize
-            },
-            136usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_blksize)
-            )
-        );
-    }
-    test_field__blksize();
-    fn test_field__offset() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__sFILE>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr)._offset) as usize - ptr as usize
-            },
-            144usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__sFILE),
-                "::",
-                stringify!(_offset)
-            )
-        );
-    }
-    test_field__offset();
 }
 pub type FILE = __sFILE;
 extern "C" {
@@ -1858,2059 +1085,6 @@ extern "C" {
             unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void) -> ::std::os::raw::c_int,
         >,
     ) -> *mut FILE;
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _JPCommonLabelPhoneme {
-    pub phoneme: *mut ::std::os::raw::c_char,
-    pub prev: *mut _JPCommonLabelPhoneme,
-    pub next: *mut _JPCommonLabelPhoneme,
-    pub up: *mut _JPCommonLabelMora,
-}
-#[test]
-fn bindgen_test_layout__JPCommonLabelPhoneme() {
-    assert_eq!(
-        ::std::mem::size_of::<_JPCommonLabelPhoneme>(),
-        32usize,
-        concat!("Size of: ", stringify!(_JPCommonLabelPhoneme))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_JPCommonLabelPhoneme>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_JPCommonLabelPhoneme))
-    );
-    fn test_field_phoneme() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelPhoneme>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).phoneme) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelPhoneme),
-                "::",
-                stringify!(phoneme)
-            )
-        );
-    }
-    test_field_phoneme();
-    fn test_field_prev() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelPhoneme>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prev) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelPhoneme),
-                "::",
-                stringify!(prev)
-            )
-        );
-    }
-    test_field_prev();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelPhoneme>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelPhoneme),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
-    fn test_field_up() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelPhoneme>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).up) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelPhoneme),
-                "::",
-                stringify!(up)
-            )
-        );
-    }
-    test_field_up();
-}
-pub type JPCommonLabelPhoneme = _JPCommonLabelPhoneme;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _JPCommonLabelMora {
-    pub mora: *mut ::std::os::raw::c_char,
-    pub head: *mut _JPCommonLabelPhoneme,
-    pub tail: *mut _JPCommonLabelPhoneme,
-    pub prev: *mut _JPCommonLabelMora,
-    pub next: *mut _JPCommonLabelMora,
-    pub up: *mut _JPCommonLabelWord,
-}
-#[test]
-fn bindgen_test_layout__JPCommonLabelMora() {
-    assert_eq!(
-        ::std::mem::size_of::<_JPCommonLabelMora>(),
-        48usize,
-        concat!("Size of: ", stringify!(_JPCommonLabelMora))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_JPCommonLabelMora>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_JPCommonLabelMora))
-    );
-    fn test_field_mora() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelMora>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).mora) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelMora),
-                "::",
-                stringify!(mora)
-            )
-        );
-    }
-    test_field_mora();
-    fn test_field_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelMora>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).head) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelMora),
-                "::",
-                stringify!(head)
-            )
-        );
-    }
-    test_field_head();
-    fn test_field_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelMora>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).tail) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelMora),
-                "::",
-                stringify!(tail)
-            )
-        );
-    }
-    test_field_tail();
-    fn test_field_prev() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelMora>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prev) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelMora),
-                "::",
-                stringify!(prev)
-            )
-        );
-    }
-    test_field_prev();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelMora>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelMora),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
-    fn test_field_up() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelMora>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).up) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelMora),
-                "::",
-                stringify!(up)
-            )
-        );
-    }
-    test_field_up();
-}
-pub type JPCommonLabelMora = _JPCommonLabelMora;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _JPCommonLabelWord {
-    pub pron: *mut ::std::os::raw::c_char,
-    pub pos: *mut ::std::os::raw::c_char,
-    pub ctype: *mut ::std::os::raw::c_char,
-    pub cform: *mut ::std::os::raw::c_char,
-    pub head: *mut _JPCommonLabelMora,
-    pub tail: *mut _JPCommonLabelMora,
-    pub prev: *mut _JPCommonLabelWord,
-    pub next: *mut _JPCommonLabelWord,
-    pub up: *mut _JPCommonLabelAccentPhrase,
-}
-#[test]
-fn bindgen_test_layout__JPCommonLabelWord() {
-    assert_eq!(
-        ::std::mem::size_of::<_JPCommonLabelWord>(),
-        72usize,
-        concat!("Size of: ", stringify!(_JPCommonLabelWord))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_JPCommonLabelWord>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_JPCommonLabelWord))
-    );
-    fn test_field_pron() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pron) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(pron)
-            )
-        );
-    }
-    test_field_pron();
-    fn test_field_pos() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pos) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(pos)
-            )
-        );
-    }
-    test_field_pos();
-    fn test_field_ctype() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).ctype) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(ctype)
-            )
-        );
-    }
-    test_field_ctype();
-    fn test_field_cform() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).cform) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(cform)
-            )
-        );
-    }
-    test_field_cform();
-    fn test_field_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).head) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(head)
-            )
-        );
-    }
-    test_field_head();
-    fn test_field_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).tail) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(tail)
-            )
-        );
-    }
-    test_field_tail();
-    fn test_field_prev() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prev) as usize - ptr as usize
-            },
-            48usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(prev)
-            )
-        );
-    }
-    test_field_prev();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            56usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
-    fn test_field_up() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelWord>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).up) as usize - ptr as usize
-            },
-            64usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelWord),
-                "::",
-                stringify!(up)
-            )
-        );
-    }
-    test_field_up();
-}
-pub type JPCommonLabelWord = _JPCommonLabelWord;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _JPCommonLabelAccentPhrase {
-    pub accent: ::std::os::raw::c_int,
-    pub emotion: *mut ::std::os::raw::c_char,
-    pub head: *mut _JPCommonLabelWord,
-    pub tail: *mut _JPCommonLabelWord,
-    pub prev: *mut _JPCommonLabelAccentPhrase,
-    pub next: *mut _JPCommonLabelAccentPhrase,
-    pub up: *mut _JPCommonLabelBreathGroup,
-}
-#[test]
-fn bindgen_test_layout__JPCommonLabelAccentPhrase() {
-    assert_eq!(
-        ::std::mem::size_of::<_JPCommonLabelAccentPhrase>(),
-        56usize,
-        concat!("Size of: ", stringify!(_JPCommonLabelAccentPhrase))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_JPCommonLabelAccentPhrase>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_JPCommonLabelAccentPhrase))
-    );
-    fn test_field_accent() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelAccentPhrase>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).accent) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelAccentPhrase),
-                "::",
-                stringify!(accent)
-            )
-        );
-    }
-    test_field_accent();
-    fn test_field_emotion() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelAccentPhrase>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).emotion) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelAccentPhrase),
-                "::",
-                stringify!(emotion)
-            )
-        );
-    }
-    test_field_emotion();
-    fn test_field_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelAccentPhrase>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).head) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelAccentPhrase),
-                "::",
-                stringify!(head)
-            )
-        );
-    }
-    test_field_head();
-    fn test_field_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelAccentPhrase>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).tail) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelAccentPhrase),
-                "::",
-                stringify!(tail)
-            )
-        );
-    }
-    test_field_tail();
-    fn test_field_prev() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelAccentPhrase>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prev) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelAccentPhrase),
-                "::",
-                stringify!(prev)
-            )
-        );
-    }
-    test_field_prev();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelAccentPhrase>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelAccentPhrase),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
-    fn test_field_up() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelAccentPhrase>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).up) as usize - ptr as usize
-            },
-            48usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelAccentPhrase),
-                "::",
-                stringify!(up)
-            )
-        );
-    }
-    test_field_up();
-}
-pub type JPCommonLabelAccentPhrase = _JPCommonLabelAccentPhrase;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _JPCommonLabelBreathGroup {
-    pub head: *mut _JPCommonLabelAccentPhrase,
-    pub tail: *mut _JPCommonLabelAccentPhrase,
-    pub prev: *mut _JPCommonLabelBreathGroup,
-    pub next: *mut _JPCommonLabelBreathGroup,
-}
-#[test]
-fn bindgen_test_layout__JPCommonLabelBreathGroup() {
-    assert_eq!(
-        ::std::mem::size_of::<_JPCommonLabelBreathGroup>(),
-        32usize,
-        concat!("Size of: ", stringify!(_JPCommonLabelBreathGroup))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_JPCommonLabelBreathGroup>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_JPCommonLabelBreathGroup))
-    );
-    fn test_field_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelBreathGroup>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).head) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelBreathGroup),
-                "::",
-                stringify!(head)
-            )
-        );
-    }
-    test_field_head();
-    fn test_field_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelBreathGroup>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).tail) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelBreathGroup),
-                "::",
-                stringify!(tail)
-            )
-        );
-    }
-    test_field_tail();
-    fn test_field_prev() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelBreathGroup>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prev) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelBreathGroup),
-                "::",
-                stringify!(prev)
-            )
-        );
-    }
-    test_field_prev();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabelBreathGroup>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabelBreathGroup),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
-}
-pub type JPCommonLabelBreathGroup = _JPCommonLabelBreathGroup;
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _JPCommonLabel {
-    pub size: ::std::os::raw::c_int,
-    pub feature: *mut *mut ::std::os::raw::c_char,
-    pub breath_head: *mut JPCommonLabelBreathGroup,
-    pub breath_tail: *mut JPCommonLabelBreathGroup,
-    pub accent_head: *mut JPCommonLabelAccentPhrase,
-    pub accent_tail: *mut JPCommonLabelAccentPhrase,
-    pub word_head: *mut JPCommonLabelWord,
-    pub word_tail: *mut JPCommonLabelWord,
-    pub mora_head: *mut JPCommonLabelMora,
-    pub mora_tail: *mut JPCommonLabelMora,
-    pub phoneme_head: *mut JPCommonLabelPhoneme,
-    pub phoneme_tail: *mut JPCommonLabelPhoneme,
-    pub short_pause_flag: ::std::os::raw::c_int,
-}
-#[test]
-fn bindgen_test_layout__JPCommonLabel() {
-    assert_eq!(
-        ::std::mem::size_of::<_JPCommonLabel>(),
-        104usize,
-        concat!("Size of: ", stringify!(_JPCommonLabel))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_JPCommonLabel>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_JPCommonLabel))
-    );
-    fn test_field_size() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).size) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(size)
-            )
-        );
-    }
-    test_field_size();
-    fn test_field_feature() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).feature) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(feature)
-            )
-        );
-    }
-    test_field_feature();
-    fn test_field_breath_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).breath_head) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(breath_head)
-            )
-        );
-    }
-    test_field_breath_head();
-    fn test_field_breath_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).breath_tail) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(breath_tail)
-            )
-        );
-    }
-    test_field_breath_tail();
-    fn test_field_accent_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).accent_head) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(accent_head)
-            )
-        );
-    }
-    test_field_accent_head();
-    fn test_field_accent_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).accent_tail) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(accent_tail)
-            )
-        );
-    }
-    test_field_accent_tail();
-    fn test_field_word_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).word_head) as usize - ptr as usize
-            },
-            48usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(word_head)
-            )
-        );
-    }
-    test_field_word_head();
-    fn test_field_word_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).word_tail) as usize - ptr as usize
-            },
-            56usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(word_tail)
-            )
-        );
-    }
-    test_field_word_tail();
-    fn test_field_mora_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).mora_head) as usize - ptr as usize
-            },
-            64usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(mora_head)
-            )
-        );
-    }
-    test_field_mora_head();
-    fn test_field_mora_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).mora_tail) as usize - ptr as usize
-            },
-            72usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(mora_tail)
-            )
-        );
-    }
-    test_field_mora_tail();
-    fn test_field_phoneme_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).phoneme_head) as usize - ptr as usize
-            },
-            80usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(phoneme_head)
-            )
-        );
-    }
-    test_field_phoneme_head();
-    fn test_field_phoneme_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).phoneme_tail) as usize - ptr as usize
-            },
-            88usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(phoneme_tail)
-            )
-        );
-    }
-    test_field_phoneme_tail();
-    fn test_field_short_pause_flag() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonLabel>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).short_pause_flag) as usize - ptr as usize
-            },
-            96usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonLabel),
-                "::",
-                stringify!(short_pause_flag)
-            )
-        );
-    }
-    test_field_short_pause_flag();
-}
-pub type JPCommonLabel = _JPCommonLabel;
-extern "C" {
-    pub fn JPCommonLabel_initialize(label: *mut JPCommonLabel);
-}
-extern "C" {
-    pub fn JPCommonLabel_push_word(
-        label: *mut JPCommonLabel,
-        pron: *const ::std::os::raw::c_char,
-        pos: *const ::std::os::raw::c_char,
-        ctype: *const ::std::os::raw::c_char,
-        cform: *const ::std::os::raw::c_char,
-        acc: ::std::os::raw::c_int,
-        chain_flag: ::std::os::raw::c_int,
-    );
-}
-extern "C" {
-    pub fn JPCommonLabel_make(label: *mut JPCommonLabel);
-}
-extern "C" {
-    pub fn JPCommonLabel_get_size(label: *mut JPCommonLabel) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    pub fn JPCommonLabel_get_feature(label: *mut JPCommonLabel)
-        -> *mut *mut ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn JPCommonLabel_print(label: *mut JPCommonLabel);
-}
-extern "C" {
-    pub fn JPCommonLabel_fprint(label: *mut JPCommonLabel, fp: *mut FILE);
-}
-extern "C" {
-    pub fn JPCommonLabel_clear(label: *mut JPCommonLabel);
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _JPCommonNode {
-    pub pron: *mut ::std::os::raw::c_char,
-    pub pos: *mut ::std::os::raw::c_char,
-    pub ctype: *mut ::std::os::raw::c_char,
-    pub cform: *mut ::std::os::raw::c_char,
-    pub acc: ::std::os::raw::c_int,
-    pub chain_flag: ::std::os::raw::c_int,
-    pub prev: *mut _JPCommonNode,
-    pub next: *mut _JPCommonNode,
-}
-#[test]
-fn bindgen_test_layout__JPCommonNode() {
-    assert_eq!(
-        ::std::mem::size_of::<_JPCommonNode>(),
-        56usize,
-        concat!("Size of: ", stringify!(_JPCommonNode))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_JPCommonNode>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_JPCommonNode))
-    );
-    fn test_field_pron() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pron) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonNode),
-                "::",
-                stringify!(pron)
-            )
-        );
-    }
-    test_field_pron();
-    fn test_field_pos() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pos) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonNode),
-                "::",
-                stringify!(pos)
-            )
-        );
-    }
-    test_field_pos();
-    fn test_field_ctype() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).ctype) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonNode),
-                "::",
-                stringify!(ctype)
-            )
-        );
-    }
-    test_field_ctype();
-    fn test_field_cform() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).cform) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonNode),
-                "::",
-                stringify!(cform)
-            )
-        );
-    }
-    test_field_cform();
-    fn test_field_acc() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).acc) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonNode),
-                "::",
-                stringify!(acc)
-            )
-        );
-    }
-    test_field_acc();
-    fn test_field_chain_flag() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).chain_flag) as usize - ptr as usize
-            },
-            36usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonNode),
-                "::",
-                stringify!(chain_flag)
-            )
-        );
-    }
-    test_field_chain_flag();
-    fn test_field_prev() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prev) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonNode),
-                "::",
-                stringify!(prev)
-            )
-        );
-    }
-    test_field_prev();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommonNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            48usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommonNode),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
-}
-pub type JPCommonNode = _JPCommonNode;
-extern "C" {
-    pub fn JPCommonNode_initialize(node: *mut JPCommonNode);
-}
-extern "C" {
-    pub fn JPCommonNode_set_pron(node: *mut JPCommonNode, str_: *const ::std::os::raw::c_char);
-}
-extern "C" {
-    pub fn JPCommonNode_set_pos(node: *mut JPCommonNode, str_: *const ::std::os::raw::c_char);
-}
-extern "C" {
-    pub fn JPCommonNode_set_ctype(node: *mut JPCommonNode, str_: *const ::std::os::raw::c_char);
-}
-extern "C" {
-    pub fn JPCommonNode_set_cform(node: *mut JPCommonNode, str_: *const ::std::os::raw::c_char);
-}
-extern "C" {
-    pub fn JPCommonNode_set_acc(node: *mut JPCommonNode, acc: ::std::os::raw::c_int);
-}
-extern "C" {
-    pub fn JPCommonNode_set_chain_flag(node: *mut JPCommonNode, flag: ::std::os::raw::c_int);
-}
-extern "C" {
-    pub fn JPCommonNode_get_pron(node: *mut JPCommonNode) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn JPCommonNode_get_pos(node: *mut JPCommonNode) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn JPCommonNode_get_ctype(node: *mut JPCommonNode) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn JPCommonNode_get_cform(node: *mut JPCommonNode) -> *const ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn JPCommonNode_get_acc(node: *mut JPCommonNode) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    pub fn JPCommonNode_get_chain_flag(node: *mut JPCommonNode) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    pub fn JPCommonNode_print(node: *mut JPCommonNode);
-}
-extern "C" {
-    pub fn JPCommonNode_fprint(node: *mut JPCommonNode, fp: *mut FILE);
-}
-extern "C" {
-    pub fn JPCommonNode_clear(node: *mut JPCommonNode);
-}
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct _JPCommon {
-    pub head: *mut JPCommonNode,
-    pub tail: *mut JPCommonNode,
-    pub label: *mut JPCommonLabel,
-}
-#[test]
-fn bindgen_test_layout__JPCommon() {
-    assert_eq!(
-        ::std::mem::size_of::<_JPCommon>(),
-        24usize,
-        concat!("Size of: ", stringify!(_JPCommon))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_JPCommon>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_JPCommon))
-    );
-    fn test_field_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommon>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).head) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommon),
-                "::",
-                stringify!(head)
-            )
-        );
-    }
-    test_field_head();
-    fn test_field_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommon>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).tail) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommon),
-                "::",
-                stringify!(tail)
-            )
-        );
-    }
-    test_field_tail();
-    fn test_field_label() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_JPCommon>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).label) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_JPCommon),
-                "::",
-                stringify!(label)
-            )
-        );
-    }
-    test_field_label();
-}
-pub type JPCommon = _JPCommon;
-extern "C" {
-    pub fn JPCommon_initialize(jpcommon: *mut JPCommon);
-}
-extern "C" {
-    pub fn JPCommon_push(jpcommon: *mut JPCommon, node: *mut JPCommonNode);
-}
-extern "C" {
-    pub fn JPCommon_make_label(jpcommon: *mut JPCommon);
-}
-extern "C" {
-    pub fn JPCommon_get_label_size(jpcommon: *mut JPCommon) -> ::std::os::raw::c_int;
-}
-extern "C" {
-    pub fn JPCommon_get_label_feature(jpcommon: *mut JPCommon) -> *mut *mut ::std::os::raw::c_char;
-}
-extern "C" {
-    pub fn JPCommon_print(jpcommon: *mut JPCommon);
-}
-extern "C" {
-    pub fn JPCommon_fprint(jpcommon: *mut JPCommon, fp: *mut FILE);
-}
-extern "C" {
-    pub fn JPCommon_refresh(jpcommon: *mut JPCommon);
-}
-extern "C" {
-    pub fn JPCommon_clear(jpcommon: *mut JPCommon);
-}
-#[doc = " DictionaryInfo structure"]
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct mecab_dictionary_info_t {
-    #[doc = " filename of dictionary"]
-    #[doc = " On Windows, filename is stored in UTF-8 encoding"]
-    pub filename: *const ::std::os::raw::c_char,
-    #[doc = " character set of the dictionary. e.g., \"SHIFT-JIS\", \"UTF-8\""]
-    pub charset: *const ::std::os::raw::c_char,
-    #[doc = " How many words are registered in this dictionary."]
-    pub size: ::std::os::raw::c_uint,
-    #[doc = " dictionary type"]
-    #[doc = " this value should be MECAB_USR_DIC, MECAB_SYS_DIC, or MECAB_UNK_DIC."]
-    pub type_: ::std::os::raw::c_int,
-    #[doc = " left attributes size"]
-    pub lsize: ::std::os::raw::c_uint,
-    #[doc = " right attributes size"]
-    pub rsize: ::std::os::raw::c_uint,
-    #[doc = " version of this dictionary"]
-    pub version: ::std::os::raw::c_ushort,
-    #[doc = " pointer to the next dictionary info."]
-    pub next: *mut mecab_dictionary_info_t,
-}
-#[test]
-fn bindgen_test_layout_mecab_dictionary_info_t() {
-    assert_eq!(
-        ::std::mem::size_of::<mecab_dictionary_info_t>(),
-        48usize,
-        concat!("Size of: ", stringify!(mecab_dictionary_info_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<mecab_dictionary_info_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(mecab_dictionary_info_t))
-    );
-    fn test_field_filename() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_dictionary_info_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).filename) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_dictionary_info_t),
-                "::",
-                stringify!(filename)
-            )
-        );
-    }
-    test_field_filename();
-    fn test_field_charset() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_dictionary_info_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).charset) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_dictionary_info_t),
-                "::",
-                stringify!(charset)
-            )
-        );
-    }
-    test_field_charset();
-    fn test_field_size() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_dictionary_info_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).size) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_dictionary_info_t),
-                "::",
-                stringify!(size)
-            )
-        );
-    }
-    test_field_size();
-    fn test_field_type() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_dictionary_info_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).type_) as usize - ptr as usize
-            },
-            20usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_dictionary_info_t),
-                "::",
-                stringify!(type_)
-            )
-        );
-    }
-    test_field_type();
-    fn test_field_lsize() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_dictionary_info_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).lsize) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_dictionary_info_t),
-                "::",
-                stringify!(lsize)
-            )
-        );
-    }
-    test_field_lsize();
-    fn test_field_rsize() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_dictionary_info_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).rsize) as usize - ptr as usize
-            },
-            28usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_dictionary_info_t),
-                "::",
-                stringify!(rsize)
-            )
-        );
-    }
-    test_field_rsize();
-    fn test_field_version() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_dictionary_info_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).version) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_dictionary_info_t),
-                "::",
-                stringify!(version)
-            )
-        );
-    }
-    test_field_version();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_dictionary_info_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_dictionary_info_t),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
-}
-#[doc = " Path structure"]
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct mecab_path_t {
-    #[doc = " pointer to the right node"]
-    pub rnode: *mut mecab_node_t,
-    #[doc = " pointer to the next right path"]
-    pub rnext: *mut mecab_path_t,
-    #[doc = " pointer to the left node"]
-    pub lnode: *mut mecab_node_t,
-    #[doc = " pointer to the next left path"]
-    pub lnext: *mut mecab_path_t,
-    #[doc = " local cost"]
-    pub cost: ::std::os::raw::c_int,
-    #[doc = " marginal probability"]
-    pub prob: f32,
-}
-#[test]
-fn bindgen_test_layout_mecab_path_t() {
-    assert_eq!(
-        ::std::mem::size_of::<mecab_path_t>(),
-        40usize,
-        concat!("Size of: ", stringify!(mecab_path_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<mecab_path_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(mecab_path_t))
-    );
-    fn test_field_rnode() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_path_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).rnode) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_path_t),
-                "::",
-                stringify!(rnode)
-            )
-        );
-    }
-    test_field_rnode();
-    fn test_field_rnext() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_path_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).rnext) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_path_t),
-                "::",
-                stringify!(rnext)
-            )
-        );
-    }
-    test_field_rnext();
-    fn test_field_lnode() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_path_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).lnode) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_path_t),
-                "::",
-                stringify!(lnode)
-            )
-        );
-    }
-    test_field_lnode();
-    fn test_field_lnext() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_path_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).lnext) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_path_t),
-                "::",
-                stringify!(lnext)
-            )
-        );
-    }
-    test_field_lnext();
-    fn test_field_cost() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_path_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).cost) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_path_t),
-                "::",
-                stringify!(cost)
-            )
-        );
-    }
-    test_field_cost();
-    fn test_field_prob() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_path_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prob) as usize - ptr as usize
-            },
-            36usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_path_t),
-                "::",
-                stringify!(prob)
-            )
-        );
-    }
-    test_field_prob();
-}
-#[doc = " Node structure"]
-#[repr(C)]
-#[derive(Debug, Copy, Clone)]
-pub struct mecab_node_t {
-    #[doc = " pointer to the previous node."]
-    pub prev: *mut mecab_node_t,
-    #[doc = " pointer to the next node."]
-    pub next: *mut mecab_node_t,
-    #[doc = " pointer to the node which ends at the same position."]
-    pub enext: *mut mecab_node_t,
-    #[doc = " pointer to the node which starts at the same position."]
-    pub bnext: *mut mecab_node_t,
-    #[doc = " pointer to the right path."]
-    #[doc = " this value is NULL if MECAB_ONE_BEST mode."]
-    pub rpath: *mut mecab_path_t,
-    #[doc = " pointer to the right path."]
-    #[doc = " this value is NULL if MECAB_ONE_BEST mode."]
-    pub lpath: *mut mecab_path_t,
-    #[doc = " surface string."]
-    #[doc = " this value is not 0 terminated."]
-    #[doc = " You can get the length with length/rlength members."]
-    pub surface: *const ::std::os::raw::c_char,
-    #[doc = " feature string"]
-    pub feature: *const ::std::os::raw::c_char,
-    #[doc = " unique node id"]
-    pub id: ::std::os::raw::c_uint,
-    #[doc = " length of the surface form."]
-    pub length: ::std::os::raw::c_ushort,
-    #[doc = " length of the surface form including white space before the morph."]
-    pub rlength: ::std::os::raw::c_ushort,
-    #[doc = " right attribute id"]
-    pub rcAttr: ::std::os::raw::c_ushort,
-    #[doc = " left attribute id"]
-    pub lcAttr: ::std::os::raw::c_ushort,
-    #[doc = " unique part of speech id. This value is defined in \"pos.def\" file."]
-    pub posid: ::std::os::raw::c_ushort,
-    #[doc = " character type"]
-    pub char_type: ::std::os::raw::c_uchar,
-    #[doc = " status of this model."]
-    #[doc = " This value is MECAB_NOR_NODE, MECAB_UNK_NODE, MECAB_BOS_NODE, MECAB_EOS_NODE, or MECAB_EON_NODE."]
-    pub stat: ::std::os::raw::c_uchar,
-    #[doc = " set 1 if this node is best node."]
-    pub isbest: ::std::os::raw::c_uchar,
-    #[doc = " forward accumulative log summation."]
-    #[doc = " This value is only available when MECAB_MARGINAL_PROB is passed."]
-    pub alpha: f32,
-    #[doc = " backward accumulative log summation."]
-    #[doc = " This value is only available when MECAB_MARGINAL_PROB is passed."]
-    pub beta: f32,
-    #[doc = " marginal probability."]
-    #[doc = " This value is only available when MECAB_MARGINAL_PROB is passed."]
-    pub prob: f32,
-    #[doc = " word cost."]
-    pub wcost: ::std::os::raw::c_short,
-    #[doc = " best accumulative cost from bos node to this node."]
-    pub cost: ::std::os::raw::c_long,
-}
-#[test]
-fn bindgen_test_layout_mecab_node_t() {
-    assert_eq!(
-        ::std::mem::size_of::<mecab_node_t>(),
-        112usize,
-        concat!("Size of: ", stringify!(mecab_node_t))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<mecab_node_t>(),
-        8usize,
-        concat!("Alignment of ", stringify!(mecab_node_t))
-    );
-    fn test_field_prev() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prev) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(prev)
-            )
-        );
-    }
-    test_field_prev();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
-    fn test_field_enext() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).enext) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(enext)
-            )
-        );
-    }
-    test_field_enext();
-    fn test_field_bnext() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).bnext) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(bnext)
-            )
-        );
-    }
-    test_field_bnext();
-    fn test_field_rpath() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).rpath) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(rpath)
-            )
-        );
-    }
-    test_field_rpath();
-    fn test_field_lpath() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).lpath) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(lpath)
-            )
-        );
-    }
-    test_field_lpath();
-    fn test_field_surface() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).surface) as usize - ptr as usize
-            },
-            48usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(surface)
-            )
-        );
-    }
-    test_field_surface();
-    fn test_field_feature() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).feature) as usize - ptr as usize
-            },
-            56usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(feature)
-            )
-        );
-    }
-    test_field_feature();
-    fn test_field_id() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).id) as usize - ptr as usize
-            },
-            64usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(id)
-            )
-        );
-    }
-    test_field_id();
-    fn test_field_length() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).length) as usize - ptr as usize
-            },
-            68usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(length)
-            )
-        );
-    }
-    test_field_length();
-    fn test_field_rlength() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).rlength) as usize - ptr as usize
-            },
-            70usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(rlength)
-            )
-        );
-    }
-    test_field_rlength();
-    fn test_field_rcAttr() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).rcAttr) as usize - ptr as usize
-            },
-            72usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(rcAttr)
-            )
-        );
-    }
-    test_field_rcAttr();
-    fn test_field_lcAttr() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).lcAttr) as usize - ptr as usize
-            },
-            74usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(lcAttr)
-            )
-        );
-    }
-    test_field_lcAttr();
-    fn test_field_posid() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).posid) as usize - ptr as usize
-            },
-            76usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(posid)
-            )
-        );
-    }
-    test_field_posid();
-    fn test_field_char_type() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).char_type) as usize - ptr as usize
-            },
-            78usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(char_type)
-            )
-        );
-    }
-    test_field_char_type();
-    fn test_field_stat() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).stat) as usize - ptr as usize
-            },
-            79usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(stat)
-            )
-        );
-    }
-    test_field_stat();
-    fn test_field_isbest() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).isbest) as usize - ptr as usize
-            },
-            80usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(isbest)
-            )
-        );
-    }
-    test_field_isbest();
-    fn test_field_alpha() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).alpha) as usize - ptr as usize
-            },
-            84usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(alpha)
-            )
-        );
-    }
-    test_field_alpha();
-    fn test_field_beta() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).beta) as usize - ptr as usize
-            },
-            88usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(beta)
-            )
-        );
-    }
-    test_field_beta();
-    fn test_field_prob() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prob) as usize - ptr as usize
-            },
-            92usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(prob)
-            )
-        );
-    }
-    test_field_prob();
-    fn test_field_wcost() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).wcost) as usize - ptr as usize
-            },
-            96usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(wcost)
-            )
-        );
-    }
-    test_field_wcost();
-    fn test_field_cost() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<mecab_node_t>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).cost) as usize - ptr as usize
-            },
-            104usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(mecab_node_t),
-                "::",
-                stringify!(cost)
-            )
-        );
-    }
-    test_field_cost();
-}
-pub const MECAB_NOR_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_NOR_NODE;
-pub const MECAB_UNK_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_UNK_NODE;
-pub const MECAB_BOS_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_BOS_NODE;
-pub const MECAB_EOS_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_EOS_NODE;
-pub const MECAB_EON_NODE: _bindgen_ty_1 = _bindgen_ty_1::MECAB_EON_NODE;
-#[repr(u32)]
-#[doc = " Parameters for MeCab::Node::stat"]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum _bindgen_ty_1 {
-    #[doc = " Normal node defined in the dictionary."]
-    MECAB_NOR_NODE = 0,
-    #[doc = " Unknown node not defined in the dictionary."]
-    MECAB_UNK_NODE = 1,
-    #[doc = " Virtual node representing a beginning of the sentence."]
-    MECAB_BOS_NODE = 2,
-    #[doc = " Virtual node representing a end of the sentence."]
-    MECAB_EOS_NODE = 3,
-    #[doc = " Virtual node representing a end of the N-best enumeration."]
-    MECAB_EON_NODE = 4,
-}
-pub const MECAB_SYS_DIC: _bindgen_ty_2 = _bindgen_ty_2::MECAB_SYS_DIC;
-pub const MECAB_USR_DIC: _bindgen_ty_2 = _bindgen_ty_2::MECAB_USR_DIC;
-pub const MECAB_UNK_DIC: _bindgen_ty_2 = _bindgen_ty_2::MECAB_UNK_DIC;
-#[repr(u32)]
-#[doc = " Parameters for MeCab::DictionaryInfo::type"]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum _bindgen_ty_2 {
-    #[doc = " This is a system dictionary."]
-    MECAB_SYS_DIC = 0,
-    #[doc = " This is a user dictionary."]
-    MECAB_USR_DIC = 1,
-    #[doc = " This is a unknown word dictionary."]
-    MECAB_UNK_DIC = 2,
-}
-pub const MECAB_ONE_BEST: _bindgen_ty_3 = _bindgen_ty_3::MECAB_ONE_BEST;
-pub const MECAB_NBEST: _bindgen_ty_3 = _bindgen_ty_3::MECAB_NBEST;
-pub const MECAB_PARTIAL: _bindgen_ty_3 = _bindgen_ty_3::MECAB_PARTIAL;
-pub const MECAB_MARGINAL_PROB: _bindgen_ty_3 = _bindgen_ty_3::MECAB_MARGINAL_PROB;
-pub const MECAB_ALTERNATIVE: _bindgen_ty_3 = _bindgen_ty_3::MECAB_ALTERNATIVE;
-pub const MECAB_ALL_MORPHS: _bindgen_ty_3 = _bindgen_ty_3::MECAB_ALL_MORPHS;
-pub const MECAB_ALLOCATE_SENTENCE: _bindgen_ty_3 = _bindgen_ty_3::MECAB_ALLOCATE_SENTENCE;
-#[repr(u32)]
-#[doc = " Parameters for MeCab::Lattice::request_type"]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum _bindgen_ty_3 {
-    #[doc = " One best result is obtained (default mode)"]
-    MECAB_ONE_BEST = 1,
-    #[doc = " Set this flag if you want to obtain N best results."]
-    MECAB_NBEST = 2,
-    #[doc = " Set this flag if you want to enable a partial parsing mode."]
-    #[doc = " When this flag is set, the input |sentence| needs to be written"]
-    #[doc = " in partial parsing format."]
-    MECAB_PARTIAL = 4,
-    #[doc = " Set this flag if you want to obtain marginal probabilities."]
-    #[doc = " Marginal probability is set in MeCab::Node::prob."]
-    #[doc = " The parsing speed will get 3-5 times slower than the default mode."]
-    MECAB_MARGINAL_PROB = 8,
-    #[doc = " Set this flag if you want to obtain alternative results."]
-    #[doc = " Not implemented."]
-    MECAB_ALTERNATIVE = 16,
-    #[doc = " When this flag is set, the result linked-list (Node::next/prev)"]
-    #[doc = " traverses all nodes in the lattice."]
-    MECAB_ALL_MORPHS = 32,
-    #[doc = " When this flag is set, tagger internally copies the body of passed"]
-    #[doc = " sentence into internal buffer."]
-    MECAB_ALLOCATE_SENTENCE = 64,
-}
-pub const MECAB_ANY_BOUNDARY: _bindgen_ty_4 = _bindgen_ty_4::MECAB_ANY_BOUNDARY;
-pub const MECAB_TOKEN_BOUNDARY: _bindgen_ty_4 = _bindgen_ty_4::MECAB_TOKEN_BOUNDARY;
-pub const MECAB_INSIDE_TOKEN: _bindgen_ty_4 = _bindgen_ty_4::MECAB_INSIDE_TOKEN;
-#[repr(u32)]
-#[doc = " Parameters for MeCab::Lattice::boundary_constraint_type"]
-#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
-pub enum _bindgen_ty_4 {
-    #[doc = " The token boundary is not specified."]
-    MECAB_ANY_BOUNDARY = 0,
-    #[doc = " The position is a strong token boundary."]
-    MECAB_TOKEN_BOUNDARY = 1,
-    #[doc = " The position is not a token boundary."]
-    MECAB_INSIDE_TOKEN = 2,
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
@@ -4410,19 +1584,6 @@ pub struct MeCab_Lattice__bindgen_vtable(::std::os::raw::c_void);
 pub struct MeCab_Lattice {
     pub vtable_: *const MeCab_Lattice__bindgen_vtable,
 }
-#[test]
-fn bindgen_test_layout_MeCab_Lattice() {
-    assert_eq!(
-        ::std::mem::size_of::<MeCab_Lattice>(),
-        8usize,
-        concat!("Size of: ", stringify!(MeCab_Lattice))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<MeCab_Lattice>(),
-        8usize,
-        concat!("Alignment of ", stringify!(MeCab_Lattice))
-    );
-}
 extern "C" {
     #[doc = " Create new Lattice object"]
     #[doc = " @return new Lattice object"]
@@ -4442,19 +1603,6 @@ pub struct MeCab_Model__bindgen_vtable(::std::os::raw::c_void);
 #[derive(Debug)]
 pub struct MeCab_Model {
     pub vtable_: *const MeCab_Model__bindgen_vtable,
-}
-#[test]
-fn bindgen_test_layout_MeCab_Model() {
-    assert_eq!(
-        ::std::mem::size_of::<MeCab_Model>(),
-        8usize,
-        concat!("Size of: ", stringify!(MeCab_Model))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<MeCab_Model>(),
-        8usize,
-        concat!("Alignment of ", stringify!(MeCab_Model))
-    );
 }
 extern "C" {
     #[doc = " Return a version string"]
@@ -4509,19 +1657,6 @@ pub struct MeCab_Tagger__bindgen_vtable(::std::os::raw::c_void);
 #[derive(Debug)]
 pub struct MeCab_Tagger {
     pub vtable_: *const MeCab_Tagger__bindgen_vtable,
-}
-#[test]
-fn bindgen_test_layout_MeCab_Tagger() {
-    assert_eq!(
-        ::std::mem::size_of::<MeCab_Tagger>(),
-        8usize,
-        concat!("Size of: ", stringify!(MeCab_Tagger))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<MeCab_Tagger>(),
-        8usize,
-        concat!("Alignment of ", stringify!(MeCab_Tagger))
-    );
 }
 extern "C" {
     #[doc = " Handy static method."]
@@ -4664,104 +1799,6 @@ pub struct _Mecab {
     pub tagger: *mut ::std::os::raw::c_void,
     pub lattice: *mut ::std::os::raw::c_void,
 }
-#[test]
-fn bindgen_test_layout__Mecab() {
-    assert_eq!(
-        ::std::mem::size_of::<_Mecab>(),
-        40usize,
-        concat!("Size of: ", stringify!(_Mecab))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_Mecab>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_Mecab))
-    );
-    fn test_field_feature() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_Mecab>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).feature) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_Mecab),
-                "::",
-                stringify!(feature)
-            )
-        );
-    }
-    test_field_feature();
-    fn test_field_size() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_Mecab>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).size) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_Mecab),
-                "::",
-                stringify!(size)
-            )
-        );
-    }
-    test_field_size();
-    fn test_field_model() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_Mecab>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).model) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_Mecab),
-                "::",
-                stringify!(model)
-            )
-        );
-    }
-    test_field_model();
-    fn test_field_tagger() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_Mecab>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).tagger) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_Mecab),
-                "::",
-                stringify!(tagger)
-            )
-        );
-    }
-    test_field_tagger();
-    fn test_field_lattice() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_Mecab>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).lattice) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_Mecab),
-                "::",
-                stringify!(lattice)
-            )
-        );
-    }
-    test_field_lattice();
-}
 pub type Mecab = _Mecab;
 extern "C" {
     pub fn Mecab_initialize(m: *mut Mecab) -> ::std::os::raw::c_int;
@@ -4812,291 +1849,6 @@ pub struct _NJDNode {
     pub chain_flag: ::std::os::raw::c_int,
     pub prev: *mut _NJDNode,
     pub next: *mut _NJDNode,
-}
-#[test]
-fn bindgen_test_layout__NJDNode() {
-    assert_eq!(
-        ::std::mem::size_of::<_NJDNode>(),
-        120usize,
-        concat!("Size of: ", stringify!(_NJDNode))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_NJDNode>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_NJDNode))
-    );
-    fn test_field_string() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).string) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(string)
-            )
-        );
-    }
-    test_field_string();
-    fn test_field_pos() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pos) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(pos)
-            )
-        );
-    }
-    test_field_pos();
-    fn test_field_pos_group1() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pos_group1) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(pos_group1)
-            )
-        );
-    }
-    test_field_pos_group1();
-    fn test_field_pos_group2() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pos_group2) as usize - ptr as usize
-            },
-            24usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(pos_group2)
-            )
-        );
-    }
-    test_field_pos_group2();
-    fn test_field_pos_group3() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pos_group3) as usize - ptr as usize
-            },
-            32usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(pos_group3)
-            )
-        );
-    }
-    test_field_pos_group3();
-    fn test_field_ctype() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).ctype) as usize - ptr as usize
-            },
-            40usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(ctype)
-            )
-        );
-    }
-    test_field_ctype();
-    fn test_field_cform() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).cform) as usize - ptr as usize
-            },
-            48usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(cform)
-            )
-        );
-    }
-    test_field_cform();
-    fn test_field_orig() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).orig) as usize - ptr as usize
-            },
-            56usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(orig)
-            )
-        );
-    }
-    test_field_orig();
-    fn test_field_read() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).read) as usize - ptr as usize
-            },
-            64usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(read)
-            )
-        );
-    }
-    test_field_read();
-    fn test_field_pron() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).pron) as usize - ptr as usize
-            },
-            72usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(pron)
-            )
-        );
-    }
-    test_field_pron();
-    fn test_field_acc() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).acc) as usize - ptr as usize
-            },
-            80usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(acc)
-            )
-        );
-    }
-    test_field_acc();
-    fn test_field_mora_size() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).mora_size) as usize - ptr as usize
-            },
-            84usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(mora_size)
-            )
-        );
-    }
-    test_field_mora_size();
-    fn test_field_chain_rule() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).chain_rule) as usize - ptr as usize
-            },
-            88usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(chain_rule)
-            )
-        );
-    }
-    test_field_chain_rule();
-    fn test_field_chain_flag() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).chain_flag) as usize - ptr as usize
-            },
-            96usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(chain_flag)
-            )
-        );
-    }
-    test_field_chain_flag();
-    fn test_field_prev() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).prev) as usize - ptr as usize
-            },
-            104usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(prev)
-            )
-        );
-    }
-    test_field_prev();
-    fn test_field_next() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJDNode>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).next) as usize - ptr as usize
-            },
-            112usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJDNode),
-                "::",
-                stringify!(next)
-            )
-        );
-    }
-    test_field_next();
 }
 pub type NJDNode = _NJDNode;
 extern "C" {
@@ -5239,53 +1991,6 @@ pub struct _NJD {
     pub head: *mut NJDNode,
     pub tail: *mut NJDNode,
 }
-#[test]
-fn bindgen_test_layout__NJD() {
-    assert_eq!(
-        ::std::mem::size_of::<_NJD>(),
-        16usize,
-        concat!("Size of: ", stringify!(_NJD))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<_NJD>(),
-        8usize,
-        concat!("Alignment of ", stringify!(_NJD))
-    );
-    fn test_field_head() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJD>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).head) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJD),
-                "::",
-                stringify!(head)
-            )
-        );
-    }
-    test_field_head();
-    fn test_field_tail() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<_NJD>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).tail) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(_NJD),
-                "::",
-                stringify!(tail)
-            )
-        );
-    }
-    test_field_tail();
-}
 pub type NJD = _NJD;
 extern "C" {
     pub fn NJD_initialize(njd: *mut NJD);
@@ -5326,6 +2031,208 @@ extern "C" {
 }
 extern "C" {
     pub fn NJD_clear(wl: *mut NJD);
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _JPCommonLabelPhoneme {
+    pub phoneme: *mut ::std::os::raw::c_char,
+    pub prev: *mut _JPCommonLabelPhoneme,
+    pub next: *mut _JPCommonLabelPhoneme,
+    pub up: *mut _JPCommonLabelMora,
+}
+pub type JPCommonLabelPhoneme = _JPCommonLabelPhoneme;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _JPCommonLabelMora {
+    pub mora: *mut ::std::os::raw::c_char,
+    pub head: *mut _JPCommonLabelPhoneme,
+    pub tail: *mut _JPCommonLabelPhoneme,
+    pub prev: *mut _JPCommonLabelMora,
+    pub next: *mut _JPCommonLabelMora,
+    pub up: *mut _JPCommonLabelWord,
+}
+pub type JPCommonLabelMora = _JPCommonLabelMora;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _JPCommonLabelWord {
+    pub pron: *mut ::std::os::raw::c_char,
+    pub pos: *mut ::std::os::raw::c_char,
+    pub ctype: *mut ::std::os::raw::c_char,
+    pub cform: *mut ::std::os::raw::c_char,
+    pub head: *mut _JPCommonLabelMora,
+    pub tail: *mut _JPCommonLabelMora,
+    pub prev: *mut _JPCommonLabelWord,
+    pub next: *mut _JPCommonLabelWord,
+    pub up: *mut _JPCommonLabelAccentPhrase,
+}
+pub type JPCommonLabelWord = _JPCommonLabelWord;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _JPCommonLabelAccentPhrase {
+    pub accent: ::std::os::raw::c_int,
+    pub emotion: *mut ::std::os::raw::c_char,
+    pub head: *mut _JPCommonLabelWord,
+    pub tail: *mut _JPCommonLabelWord,
+    pub prev: *mut _JPCommonLabelAccentPhrase,
+    pub next: *mut _JPCommonLabelAccentPhrase,
+    pub up: *mut _JPCommonLabelBreathGroup,
+}
+pub type JPCommonLabelAccentPhrase = _JPCommonLabelAccentPhrase;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _JPCommonLabelBreathGroup {
+    pub head: *mut _JPCommonLabelAccentPhrase,
+    pub tail: *mut _JPCommonLabelAccentPhrase,
+    pub prev: *mut _JPCommonLabelBreathGroup,
+    pub next: *mut _JPCommonLabelBreathGroup,
+}
+pub type JPCommonLabelBreathGroup = _JPCommonLabelBreathGroup;
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _JPCommonLabel {
+    pub size: ::std::os::raw::c_int,
+    pub feature: *mut *mut ::std::os::raw::c_char,
+    pub breath_head: *mut JPCommonLabelBreathGroup,
+    pub breath_tail: *mut JPCommonLabelBreathGroup,
+    pub accent_head: *mut JPCommonLabelAccentPhrase,
+    pub accent_tail: *mut JPCommonLabelAccentPhrase,
+    pub word_head: *mut JPCommonLabelWord,
+    pub word_tail: *mut JPCommonLabelWord,
+    pub mora_head: *mut JPCommonLabelMora,
+    pub mora_tail: *mut JPCommonLabelMora,
+    pub phoneme_head: *mut JPCommonLabelPhoneme,
+    pub phoneme_tail: *mut JPCommonLabelPhoneme,
+    pub short_pause_flag: ::std::os::raw::c_int,
+}
+pub type JPCommonLabel = _JPCommonLabel;
+extern "C" {
+    pub fn JPCommonLabel_initialize(label: *mut JPCommonLabel);
+}
+extern "C" {
+    pub fn JPCommonLabel_push_word(
+        label: *mut JPCommonLabel,
+        pron: *const ::std::os::raw::c_char,
+        pos: *const ::std::os::raw::c_char,
+        ctype: *const ::std::os::raw::c_char,
+        cform: *const ::std::os::raw::c_char,
+        acc: ::std::os::raw::c_int,
+        chain_flag: ::std::os::raw::c_int,
+    );
+}
+extern "C" {
+    pub fn JPCommonLabel_make(label: *mut JPCommonLabel);
+}
+extern "C" {
+    pub fn JPCommonLabel_get_size(label: *mut JPCommonLabel) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn JPCommonLabel_get_feature(label: *mut JPCommonLabel)
+        -> *mut *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn JPCommonLabel_print(label: *mut JPCommonLabel);
+}
+extern "C" {
+    pub fn JPCommonLabel_fprint(label: *mut JPCommonLabel, fp: *mut FILE);
+}
+extern "C" {
+    pub fn JPCommonLabel_clear(label: *mut JPCommonLabel);
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _JPCommonNode {
+    pub pron: *mut ::std::os::raw::c_char,
+    pub pos: *mut ::std::os::raw::c_char,
+    pub ctype: *mut ::std::os::raw::c_char,
+    pub cform: *mut ::std::os::raw::c_char,
+    pub acc: ::std::os::raw::c_int,
+    pub chain_flag: ::std::os::raw::c_int,
+    pub prev: *mut _JPCommonNode,
+    pub next: *mut _JPCommonNode,
+}
+pub type JPCommonNode = _JPCommonNode;
+extern "C" {
+    pub fn JPCommonNode_initialize(node: *mut JPCommonNode);
+}
+extern "C" {
+    pub fn JPCommonNode_set_pron(node: *mut JPCommonNode, str_: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    pub fn JPCommonNode_set_pos(node: *mut JPCommonNode, str_: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    pub fn JPCommonNode_set_ctype(node: *mut JPCommonNode, str_: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    pub fn JPCommonNode_set_cform(node: *mut JPCommonNode, str_: *const ::std::os::raw::c_char);
+}
+extern "C" {
+    pub fn JPCommonNode_set_acc(node: *mut JPCommonNode, acc: ::std::os::raw::c_int);
+}
+extern "C" {
+    pub fn JPCommonNode_set_chain_flag(node: *mut JPCommonNode, flag: ::std::os::raw::c_int);
+}
+extern "C" {
+    pub fn JPCommonNode_get_pron(node: *mut JPCommonNode) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn JPCommonNode_get_pos(node: *mut JPCommonNode) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn JPCommonNode_get_ctype(node: *mut JPCommonNode) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn JPCommonNode_get_cform(node: *mut JPCommonNode) -> *const ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn JPCommonNode_get_acc(node: *mut JPCommonNode) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn JPCommonNode_get_chain_flag(node: *mut JPCommonNode) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn JPCommonNode_print(node: *mut JPCommonNode);
+}
+extern "C" {
+    pub fn JPCommonNode_fprint(node: *mut JPCommonNode, fp: *mut FILE);
+}
+extern "C" {
+    pub fn JPCommonNode_clear(node: *mut JPCommonNode);
+}
+#[repr(C)]
+#[derive(Debug, Copy, Clone)]
+pub struct _JPCommon {
+    pub head: *mut JPCommonNode,
+    pub tail: *mut JPCommonNode,
+    pub label: *mut JPCommonLabel,
+}
+pub type JPCommon = _JPCommon;
+extern "C" {
+    pub fn JPCommon_initialize(jpcommon: *mut JPCommon);
+}
+extern "C" {
+    pub fn JPCommon_push(jpcommon: *mut JPCommon, node: *mut JPCommonNode);
+}
+extern "C" {
+    pub fn JPCommon_make_label(jpcommon: *mut JPCommon);
+}
+extern "C" {
+    pub fn JPCommon_get_label_size(jpcommon: *mut JPCommon) -> ::std::os::raw::c_int;
+}
+extern "C" {
+    pub fn JPCommon_get_label_feature(jpcommon: *mut JPCommon) -> *mut *mut ::std::os::raw::c_char;
+}
+extern "C" {
+    pub fn JPCommon_print(jpcommon: *mut JPCommon);
+}
+extern "C" {
+    pub fn JPCommon_fprint(jpcommon: *mut JPCommon, fp: *mut FILE);
+}
+extern "C" {
+    pub fn JPCommon_refresh(jpcommon: *mut JPCommon);
+}
+extern "C" {
+    pub fn JPCommon_clear(jpcommon: *mut JPCommon);
 }
 extern "C" {
     pub fn njd2jpcommon(jpcommon: *mut JPCommon, njd: *mut NJD);
@@ -5377,85 +2284,4 @@ pub struct __va_list_tag {
     pub fp_offset: ::std::os::raw::c_uint,
     pub overflow_arg_area: *mut ::std::os::raw::c_void,
     pub reg_save_area: *mut ::std::os::raw::c_void,
-}
-#[test]
-fn bindgen_test_layout___va_list_tag() {
-    assert_eq!(
-        ::std::mem::size_of::<__va_list_tag>(),
-        24usize,
-        concat!("Size of: ", stringify!(__va_list_tag))
-    );
-    assert_eq!(
-        ::std::mem::align_of::<__va_list_tag>(),
-        8usize,
-        concat!("Alignment of ", stringify!(__va_list_tag))
-    );
-    fn test_field_gp_offset() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__va_list_tag>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).gp_offset) as usize - ptr as usize
-            },
-            0usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__va_list_tag),
-                "::",
-                stringify!(gp_offset)
-            )
-        );
-    }
-    test_field_gp_offset();
-    fn test_field_fp_offset() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__va_list_tag>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).fp_offset) as usize - ptr as usize
-            },
-            4usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__va_list_tag),
-                "::",
-                stringify!(fp_offset)
-            )
-        );
-    }
-    test_field_fp_offset();
-    fn test_field_overflow_arg_area() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__va_list_tag>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).overflow_arg_area) as usize - ptr as usize
-            },
-            8usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__va_list_tag),
-                "::",
-                stringify!(overflow_arg_area)
-            )
-        );
-    }
-    test_field_overflow_arg_area();
-    fn test_field_reg_save_area() {
-        assert_eq!(
-            unsafe {
-                let uninit = ::std::mem::MaybeUninit::<__va_list_tag>::uninit();
-                let ptr = uninit.as_ptr();
-                ::std::ptr::addr_of!((*ptr).reg_save_area) as usize - ptr as usize
-            },
-            16usize,
-            concat!(
-                "Offset of field: ",
-                stringify!(__va_list_tag),
-                "::",
-                stringify!(reg_save_area)
-            )
-        );
-    }
-    test_field_reg_save_area();
 }
