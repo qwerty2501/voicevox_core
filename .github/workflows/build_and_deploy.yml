@@ -48,8 +48,6 @@ jobs:
           toolchain: stable
           target: ${{ matrix.target }}
           default: true
-      - if: ${{ matrix.target }} == i686-pc-windows-msvc
-        uses: mxschmitt/action-tmate@v3
       - name: build release
         run: cargo build --features ${{ matrix.feature }} --target ${{ matrix.target }} --release
         env:
