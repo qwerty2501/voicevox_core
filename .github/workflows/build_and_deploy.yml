@@ -76,7 +76,7 @@ jobs:
         if: (!contains(matrix.os , 'windows'))
         run: |
           cd artifact
-          tar -zcvf "${{ env.ASSET_NAME }}.tar.gz" "${{ env.ASSET_NAME }}"
+          tar -zcvf "../${{ env.ASSET_NAME }}.tar.gz" "${{ env.ASSET_NAME }}"
           echo "ARCHIVE_FILE=${{ env.ASSET_NAME }}.tar.gz" >> $GITHUB_ENV
       - name: Archive artifact (Windows)
         if: contains(matrix.os, 'windows')
