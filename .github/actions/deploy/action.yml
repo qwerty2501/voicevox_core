@@ -7,6 +7,9 @@ inputs:
   target_os:
     description: "ターゲットのOS"
     required: true
+  repo_token:
+    description: repositoryのトークン
+    required: true
   version:
     description: "version"
     required: true
@@ -34,7 +37,7 @@ runs:
       if: env.VERSION != 'DEBUG' && env.SKIP_UPLOADING_RELEASE_ASSET == '0'
       uses: svenstaro/upload-release-action@v2
       with:
-        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        repo_token: ${{ inputs.repo_token }}
         prerelease: true
         tag: ${{ env.VERSION }}
         file: ${{ env.ASSET_NAME }}.zip

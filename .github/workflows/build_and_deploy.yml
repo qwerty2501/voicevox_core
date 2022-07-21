@@ -63,5 +63,6 @@ jobs:
         uses: ./.github/actions/deploy
         with:
           artifact_name: ${{ matrix.artifact_name }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
           target_os: ${{ matrix.os }}
           version: ${{ github.event.release.tag_name || github.event.inputs.version || 'DEBUG' }}
