@@ -25,7 +25,7 @@ runs:
       run: |
         mkdir -p "artifact/${{ env.ASSET_NAME }}"
         cp -v target/core.h "artifact/${{ env.ASSET_NAME }}"
-        cp -v target/release/*.{dll,so,dylib} "artifact/${{ env.ASSET_NAME }}"
+        cp -v target/**/release/*.{dll,so,dylib} "artifact/${{ env.ASSET_NAME }}"
         echo "${{ env.VERSION }}" > "artifact/${{ env.ASSET_NAME }}/VERSION"
         cp -v README.md "artifact/${{ env.ASSET_NAME }}/README.txt"
     - name: Archive artifact
