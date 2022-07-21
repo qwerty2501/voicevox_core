@@ -72,11 +72,11 @@ jobs:
           echo "${{ env.VERSION }}" > "artifact/${{ env.ASSET_NAME }}/VERSION"
       - name: Organize onnxruntime(other)
         shell: bash
-        if: contains(matrix.os,'osx') == false
+        if: contains(matrix.os,'macos') == false
         run: cp -v -n target/${{ matrix.target }}/release/build/onnxruntime-sys-*/out/onnxruntime_*/onnxruntime-*/lib/*.{dll,so} "artifact/${{ env.ASSET_NAME }}" || true
-      - name: Organize onnxruntime(osx)
+      - name: Organize onnxruntime(macos)
         shell: bash
-        if: contains(matrix.os,'osx')
+        if: contains(matrix.os,'macos')
         run: cp -v -n target/${{ matrix.target }}/release/build/onnxruntime-sys-*/out/onnxruntime_*/onnxruntime-*/lib/libonnxruntime.dylib "artifact/${{ env.ASSET_NAME }}" || true
       - name: Archive artifact
         shell: bash
