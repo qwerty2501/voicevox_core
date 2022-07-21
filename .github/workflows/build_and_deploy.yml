@@ -68,9 +68,16 @@ jobs:
           mkdir -p "artifact/${{ env.ASSET_NAME }}"
           cp -v target/core.h "artifact/${{ env.ASSET_NAME }}"
           cp -v target/${{ matrix.target }}/release/*.{dll,so,dylib} "artifact/${{ env.ASSET_NAME }}" || true
-          cp -v -n target/${{ matrix.target }}/release/build/onnxruntime-sys-*/out/onnxruntime_*/onnxruntime-*/lib/*.{dll,so,dylib} "artifact/${{ env.ASSET_NAME }}" || true
-          echo "${{ env.VERSION }}" > "artifact/${{ env.ASSET_NAME }}/VERSION"
           cp -v README.md "artifact/${{ env.ASSET_NAME }}/README.txt"
+          echo "${{ env.VERSION }}" > "artifact/${{ env.ASSET_NAME }}/VERSION"
+      - name: Organize onnxruntime(other)
+        shell: bash
+        if: contains(matrix.os,'osx') == false
+        run: cp -v -n target/${{ matrix.target }}/release/build/onnxruntime-sys-*/out/onnxruntime_*/onnxruntime-*/lib/*.{dll,so} "artifact/${{ env.ASSET_NAME }}" || true
+      - name: Organize onnxruntime(osx)
+        shell: bash
+        if: contains(matrix.os,'osx')
+        run: cp -v -n target/${{ matrix.target }}/release/build/onnxruntime-sys-*/out/onnxruntime_*/onnxruntime-*/lib/libonnxruntime.dylib "artifact/${{ env.ASSET_NAME }}" || true
       - name: Archive artifact
         shell: bash
         if: (!contains(matrix.os , 'windows'))
