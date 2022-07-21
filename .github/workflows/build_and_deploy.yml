@@ -82,7 +82,10 @@ jobs:
         if: contains(matrix.os, 'windows')
         run: |
           powershell Compress-Archive -Path "artifact/${{ env.ASSET_NAME }}" -DestinationPath "${{ env.ASSET_NAME }}.zip"
-          echo "ARCHIVE_FILE=${{ env.ASSET_NAME }}.zip"  >> $GITHUB_ENV
+      - name: Set Archive file name (Windows)
+        if: contains(matrix.os, 'windows')
+        shell: bash
+        run: echo "ARCHIVE_FILE=${{ env.ASSET_NAME }}.zip"  >> $GITHUB_ENV
       - name: Upload to Release
         if: env.VERSION != 'DEBUG' && env.SKIP_UPLOADING_RELEASE_ASSET == '0'
         uses: svenstaro/upload-release-action@v2
