@@ -72,9 +72,16 @@ jobs:
           cp -v README.md "artifact/${{ env.ASSET_NAME }}/README.txt"
       - name: Archive artifact
         shell: bash
+        if: env.VERSION != 'DEBUG' && !contains(matrix.os, 'windows')
         run: |
           cd artifact
-          zip -r "${{ env.ASSET_NAME }}.zip" "${{ env.ASSET_NAME }}"
+          tar -zcvf "${{ env.ASSET_NAME }}.tar.gz" "${{ env.ASSET_NAME }}"
+          echo "ARCHIVE_FILE=${{ env.ASSET_NAME }}.tar.gz" >> $GITHUB_ENV
+      - name: Archive artifact (Windows)
+        if: env.VERSION != 'DEBUG' && contains(matrix.os, 'windows')
+        run: |
+          powershell Compress-Archive -Path "artifact/${{ env.ASSET_NAME }}" -DestinationPath "${{ env.ASSET_NAME }}.zip"
+          echo "ARCHIVE_FILE=${{ env.ASSET_NAME }}.zip"  >> $GITHUB_ENV
       - name: Upload to Release
         if: env.VERSION != 'DEBUG' && env.SKIP_UPLOADING_RELEASE_ASSET == '0'
         uses: svenstaro/upload-release-action@v2
@@ -82,4 +89,4 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           prerelease: true
           tag: ${{ env.VERSION }}
-          file: ${{ env.ASSET_NAME }}.zip
+          file: ${{ env.ARCHIVE_FILE }}
