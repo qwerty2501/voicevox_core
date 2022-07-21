@@ -14,30 +14,37 @@ jobs:
           - os: windows-latest
             feature: default
             target: x86_64-pc-windows-msvc
+            artifact_name: windows-x64-cpu
             use_gpu: false
           - os: windows-latest
             feature: default
             target: x86_64-pc-windows-msvc
+            artifact_name: windows-x64-gpu
             use_gpu: true
           - os: windows-latest
             feature: default
             target: i686-pc-windows-msvc
+            artifact_name: windows-x86-cpu
             use_gpu: false
           - os: ubuntu-latest
             feature: default
             target: x86_64-unknown-linux-gnu
+            artifact_name: linux-x64-cpu
             use_gpu: false
           - os: ubuntu-latest
             feature: default
             target: x86_64-unknown-linux-gnu
+            artifact_name: linux-x64-gpu
             use_gpu: true
           - os: macos-latest
             feature: default
             target: aarch64-apple-darwin
+            artifact_name: osx-aarch64-cpu
             use_gpu: false
           - os: macos-latest
             feature: default
             target: x86_64-apple-darwin
+            artifact_name: osx-x64-cpu
             use_gpu: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -53,4 +60,8 @@ jobs:
           ORT_USE_CUDA: ${{ matrix.use_gpu }}
       - name: deploy
         if: startsWith( github.ref, 'refs/tags/' )
-        run: echo "TODO:deploy処理を実装する"
+        uses: ./.github/actions/deploy
+        with:
+          artifact_name: ${{ matrix.artifact_name }}
+          target_os: ${{ matrix.os }}
+          version: ${{ github.event.release.tag_name || github.event.inputs.version || 'DEBUG' }}
