@@ -5,7 +5,8 @@ on:
     workflows: ["test workflow"]
     types:
       - completed
-
+env:
+  VERSION: ${{ github.event.release.tag_name || github.event.inputs.version || 'DEBUG' }}
 jobs:
   build_and_deploy:
     strategy:
@@ -58,11 +59,27 @@ jobs:
         run: cargo build --features ${{ matrix.feature }} --target ${{ matrix.target }} --release
         env:
           ORT_USE_CUDA: ${{ matrix.use_gpu }}
-      - name: deploy
-        if: startsWith( github.ref, 'refs/tags/' )
-        uses: ./.github/actions/deploy
+      - name: Set ASSET_NAME env var
+        shell: bash
+        run: echo "ASSET_NAME=voicevox_core-${{ matrix.artifact_name }}-${{ env.VERSION }}" >> $GITHUB_ENV
+      - name: Organize artifact
+        shell: bash
+        run: |
+          mkdir -p "artifact/${{ env.ASSET_NAME }}"
+          cp -v target/core.h "artifact/${{ env.ASSET_NAME }}"
+          cp -v target/**/release/*.{dll,so,dylib} "artifact/${{ env.ASSET_NAME }}"
+          echo "${{ env.VERSION }}" > "artifact/${{ env.ASSET_NAME }}/VERSION"
+          cp -v README.md "artifact/${{ env.ASSET_NAME }}/README.txt"
+      - name: Archive artifact
+        shell: bash
+        run: |
+          cd artifact
+          zip -r "${{ env.ASSET_NAME }}.zip" "artifact/${{ env.ASSET_NAME }}"
+      - name: Upload to Release
+        if: env.VERSION != 'DEBUG' && env.SKIP_UPLOADING_RELEASE_ASSET == '0'
+        uses: svenstaro/upload-release-action@v2
         with:
-          artifact_name: ${{ matrix.artifact_name }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          target_os: ${{ matrix.os }}
-          version: ${{ github.event.release.tag_name || github.event.inputs.version || 'DEBUG' }}
+          prerelease: true
+          tag: ${{ env.VERSION }}
+          file: ${{ env.ASSET_NAME }}.zip
