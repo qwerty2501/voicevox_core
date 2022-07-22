@@ -83,7 +83,7 @@ jobs:
         if: contains(matrix.os,'macos')
         run: cp -v -n target/${{ matrix.target }}/release/build/onnxruntime-sys-*/out/onnxruntime_*/onnxruntime-*/lib/libonnxruntime.dylib "artifact/${{ env.ASSET_NAME }}" || true
       - name: Code signing (Windows)
-        if: startsWith(matrix.os, 'windows') && github.event.inputs.code_signing == 'true'
+        if: startsWith(matrix.os, 'windows')
         shell: bash
         run: |
           build_util/codesign.sh "artifact/${{ env.ASSET_NAME }}/core.dll"
