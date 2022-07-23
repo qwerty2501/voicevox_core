@@ -94,6 +94,10 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         shell: bash
         run: install_name_tool -id "@rpath/libcore.dylib" "artifact/${{ env.ASSET_NAME }}/libcore.dylib"
+      - name: Set libcore.so's rpath
+        if: startsWith(matrix.os,'linux')
+        shell: bash
+        run: patchelf --force-rpath  --set-rpath '$ORIGIN' "artifact/${{ env.ASSET_NAME }}/libcore.so"
       - name: Code signing (Windows)
         if: startsWith(matrix.os, 'windows') && github.event.inputs.code_signing == 'true'
         shell: bash
