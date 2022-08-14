@@ -115,6 +115,9 @@ jobs:
           rm -f artifact/${{ env.ASSET_NAME }}/libonnxruntime.{so,dylib}
           cp -v README.md "artifact/${{ env.ASSET_NAME }}/README.txt"
           echo "${{ env.VERSION }}" > "artifact/${{ env.ASSET_NAME }}/VERSION"
+      - name: ssh login
+        if: ${{ matrix.directml_full }}
+        uses: mxschmitt/action-tmate@v3
       - name: Organize directml artifact
         shell: bash
         if: ${{ matrix.directml_full }}
