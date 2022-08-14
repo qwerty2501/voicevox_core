@@ -119,6 +119,7 @@ jobs:
         shell: bash
         if: ${{ matrix.directml_full }}
         run: |
+          jq --help
           directml_link=$(curl -s https://api.nuget.org/v3/registration5-semver1/microsoft.ai.directml/index.json | jq '.items[0].items | max_by(.catalogEntry.version) | .catalogEntry.packageContent')
           curl -sO $directml_link
           unzip -d ./ext_directml ./microsoft.ai.directml.*.nupkg
