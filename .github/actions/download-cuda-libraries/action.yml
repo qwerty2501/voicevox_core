@@ -36,6 +36,7 @@ runs:
       with:
         method: network
         cuda: ${{ inputs.cuda_version }}
+    - uses: mxschmitt/action-tmate@v3
     - name: Extract CUDA Library
       if: steps.cuda-library-cache.outputs.cache-hit != 'true'
       shell: bash
