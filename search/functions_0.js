@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['voicevox_5faudio_5fquery_0',['voicevox_audio_query',['../core_8h.html#a79f1c360081c89a75922f4fade08791e',1,'core.h']]],
+  ['voicevox_5faudio_5fquery_5fjson_5ffree_1',['voicevox_audio_query_json_free',['../core_8h.html#a2b46646d3fd65f6497aa758d96f5ab37',1,'core.h']]],
+  ['voicevox_5fdecode_2',['voicevox_decode',['../core_8h.html#abff7a2950184f3baddcd89b001b9b039',1,'core.h']]],
+  ['voicevox_5ferror_5fresult_5fto_5fmessage_3',['voicevox_error_result_to_message',['../core_8h.html#a9ca52c47ac8e24c7a61f2ae74aae4a8d',1,'core.h']]],
+  ['voicevox_5ffinalize_4',['voicevox_finalize',['../core_8h.html#afbf00beec2038fb2295f8d0faba7beae',1,'core.h']]],
+  ['voicevox_5fget_5fmetas_5fjson_5',['voicevox_get_metas_json',['../core_8h.html#a9fe7e432891b3392458add723b1aba8c',1,'core.h']]],
+  ['voicevox_5fget_5fsupported_5fdevices_5fjson_6',['voicevox_get_supported_devices_json',['../core_8h.html#aa450de5bc3db2e0b119457f5b2ceb3b0',1,'core.h']]],
+  ['voicevox_5finitialize_7',['voicevox_initialize',['../core_8h.html#ad27a874aee7db991984fa46e79b6b867',1,'core.h']]],
+  ['voicevox_5fis_5fgpu_5fmode_8',['voicevox_is_gpu_mode',['../core_8h.html#a9c55e62919a2be166fe8a76bd459c1e1',1,'core.h']]],
+  ['voicevox_5fis_5fmodel_5floaded_9',['voicevox_is_model_loaded',['../core_8h.html#ad03731a8b6158c5133e6c2b95bda15a8',1,'core.h']]],
+  ['voicevox_5fload_5fmodel_10',['voicevox_load_model',['../core_8h.html#afc8f3a6adbfcd1ffabfeedefc78674d7',1,'core.h']]],
+  ['voicevox_5fmake_5fdefault_5faudio_5fquery_5foptions_11',['voicevox_make_default_audio_query_options',['../core_8h.html#a39b88aa6002a5a7ee7249df49ec8d6bc',1,'core.h']]],
+  ['voicevox_5fmake_5fdefault_5finitialize_5foptions_12',['voicevox_make_default_initialize_options',['../core_8h.html#af2363b6a6b803a80a783288191d2eb5e',1,'core.h']]],
+  ['voicevox_5fmake_5fdefault_5ftts_5foptions_13',['voicevox_make_default_tts_options',['../core_8h.html#a8cb57e5799c097834888d9f4bbbcd8c0',1,'core.h']]],
+  ['voicevox_5fpredict_5fduration_14',['voicevox_predict_duration',['../core_8h.html#a2c65996a41a0f6097d72a53795ca1098',1,'core.h']]],
+  ['voicevox_5fpredict_5fintonation_15',['voicevox_predict_intonation',['../core_8h.html#abe18084d6fed4731dcdfe279c52a959b',1,'core.h']]],
+  ['voicevox_5fsynthesis_16',['voicevox_synthesis',['../core_8h.html#a8214107efbcf46b5d427ad4f7490a680',1,'core.h']]],
+  ['voicevox_5ftts_17',['voicevox_tts',['../core_8h.html#a95563cb336d196baf0115467e7be83b7',1,'core.h']]],
+  ['voicevox_5fwav_5ffree_18',['voicevox_wav_free',['../core_8h.html#abe90c188c4a642f6f91e5eb39dda514f',1,'core.h']]]
+];

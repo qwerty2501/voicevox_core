@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['voicevox_5facceleration_5fmode_5fauto_0',['VOICEVOX_ACCELERATION_MODE_AUTO',['../core_8h.html#a96528151ae324047a7f6a9599ad3f81ea7b02c75389fe087e6552100f93bc6968',1,'core.h']]],
+  ['voicevox_5facceleration_5fmode_5fcpu_1',['VOICEVOX_ACCELERATION_MODE_CPU',['../core_8h.html#a96528151ae324047a7f6a9599ad3f81eabdff0eedc5509fcf19c38864de7d9e36',1,'core.h']]],
+  ['voicevox_5facceleration_5fmode_5fgpu_2',['VOICEVOX_ACCELERATION_MODE_GPU',['../core_8h.html#a96528151ae324047a7f6a9599ad3f81ea310af9497949c7134a103cab078a7740',1,'core.h']]],
+  ['voicevox_5fresult_5fcant_5fgpu_5fsupport_3',['VOICEVOX_RESULT_CANT_GPU_SUPPORT',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba888effed6b4c87de2f73d3b57b7b3f26',1,'core.h']]],
+  ['voicevox_5fresult_5ffailed_5fextract_5ffull_5fcontext_5flabel_4',['VOICEVOX_RESULT_FAILED_EXTRACT_FULL_CONTEXT_LABEL',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba279eb252b13aa1f78fd9c2cbc6d44d6c',1,'core.h']]],
+  ['voicevox_5fresult_5ffailed_5fget_5fsupported_5fdevices_5',['VOICEVOX_RESULT_FAILED_GET_SUPPORTED_DEVICES',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8baa3c8b5c092e6359ac2fd55ea314e14ea',1,'core.h']]],
+  ['voicevox_5fresult_5ffailed_5fload_5fmetas_6',['VOICEVOX_RESULT_FAILED_LOAD_METAS',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba61a8fba1b9c3e66553d0bcaa561e10d9',1,'core.h']]],
+  ['voicevox_5fresult_5ffailed_5fload_5fmodel_7',['VOICEVOX_RESULT_FAILED_LOAD_MODEL',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba1101a9ba68a685f05298d885b8d59caa',1,'core.h']]],
+  ['voicevox_5fresult_5ffailed_5fparse_5fkana_8',['VOICEVOX_RESULT_FAILED_PARSE_KANA',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba76337f670e1dd049153c4a28fcf0b7db',1,'core.h']]],
+  ['voicevox_5fresult_5finference_5ffailed_9',['VOICEVOX_RESULT_INFERENCE_FAILED',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba6c554f87b15c9dc6e8b209e8cccaf6a4',1,'core.h']]],
+  ['voicevox_5fresult_5finvalid_5faudio_5fquery_10',['VOICEVOX_RESULT_INVALID_AUDIO_QUERY',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8baa2eedb093a3b474690e15b248405bc8e',1,'core.h']]],
+  ['voicevox_5fresult_5finvalid_5fmodel_5findex_11',['VOICEVOX_RESULT_INVALID_MODEL_INDEX',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba9839d3a8d67003441130c757a5bbf142',1,'core.h']]],
+  ['voicevox_5fresult_5finvalid_5fspeaker_5fid_12',['VOICEVOX_RESULT_INVALID_SPEAKER_ID',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba713e62c61a20d7c73953a77081bbb4a9',1,'core.h']]],
+  ['voicevox_5fresult_5finvalid_5futf8_5finput_13',['VOICEVOX_RESULT_INVALID_UTF8_INPUT',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8bab4448d947f28f91a92d95ee69b1aaf7e',1,'core.h']]],
+  ['voicevox_5fresult_5fnot_5floaded_5fopenjtalk_5fdict_14',['VOICEVOX_RESULT_NOT_LOADED_OPENJTALK_DICT',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8bae583616fa3ca2b45db7b4b04f2288b63',1,'core.h']]],
+  ['voicevox_5fresult_5fsucceed_15',['VOICEVOX_RESULT_SUCCEED',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba9213e746b8520d543deab7c8695d5c68',1,'core.h']]],
+  ['voicevox_5fresult_5funinitialized_5fstatus_16',['VOICEVOX_RESULT_UNINITIALIZED_STATUS',['../core_8h.html#a8be117d181bc988855ed1254b0e45d8ba914072ea5bd64dde6ba1941a2a560722',1,'core.h']]]
+];
