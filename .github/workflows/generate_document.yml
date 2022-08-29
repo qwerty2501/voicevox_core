@@ -32,9 +32,6 @@ jobs:
     permissions:
       pages: write
       id-token: write
-    environment:
-      name: C APIドキュメント
-      url: ${{ steps.api.outputs.page_url }}/apis/c_api
     steps:
       - name: Deploy to GitHub pages
         id: api
